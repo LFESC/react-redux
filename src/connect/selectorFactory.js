@@ -96,7 +96,10 @@ export function pureFinalPropsSelectorFactory(
 // allowing connectAdvanced's shouldComponentUpdate to return false if final
 // props have not changed. If false, the selector will always return a new
 // object and shouldComponentUpdate will always return true.
-
+// 如果pure参数为真，selectorFactory返回的选择器将会记住它的结果，
+// 允许connectAdvanced的shouldComponentUpdate返回false如果final
+// props没有改变。如果为false，选择器将始终返回一个新
+// 对象和shouldComponentUpdate将始终返回true。
 export default function finalPropsSelectorFactory(
   dispatch,
   { initMapStateToProps, initMapDispatchToProps, initMergeProps, ...options }
@@ -106,6 +109,7 @@ export default function finalPropsSelectorFactory(
   const mergeProps = initMergeProps(dispatch, options)
 
   if (process.env.NODE_ENV !== 'production') {
+    // 校验三个方法是否存在，并判断是否有dependsOnOwnProps属性
     verifySubselectors(
       mapStateToProps,
       mapDispatchToProps,
@@ -118,6 +122,8 @@ export default function finalPropsSelectorFactory(
     ? pureFinalPropsSelectorFactory
     : impureFinalPropsSelectorFactory
 
+  // pure为true返回 function pureFinalPropsSelector
+  // pure为false返回 function impureFinalPropsSelector
   return selectorFactory(
     mapStateToProps,
     mapDispatchToProps,
