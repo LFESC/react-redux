@@ -215,7 +215,7 @@ export default function connectAdvanced(
       }, [propsContext, Context])
 
       // Retrieve the store and ancestor subscription via context, if available
-      // 如果可用，通过上下文检索存储和祖先订阅
+      // 如果可用，通过上下文检索store和祖先订阅
       // https://reactjs.org/docs/hooks-reference.html#usecontext
       // 获取context的值，这个值是Provider里面传入的
       const contextValue = useContext(ContextToUse)
