@@ -102,7 +102,7 @@ export function wrapMapToPropsFunc(mapToProps, methodName) {
   }
 }
 ```
-proxy方法的作用是根据你传过来的mapStateToProps或mapDispatchToProps的参数的长短判断是否需要ownProps，然后再将stateOrDispatch和ownProps传给你的mapStateToProps货mapDispatchToProps去执行，并返回执行的结果。
+proxy方法的作用是根据你传过来的mapStateToProps或mapDispatchToProps的参数的长短判断是否需要ownProps，然后再将stateOrDispatch和ownProps传给你的mapStateToProps和mapDispatchToProps去执行，并返回执行的结果。
 >注意：如果你的mapStateToProps或mapDispatchToProps返回的是一个function，react-redux会将它作为真正的mapStateToProps或mapDispatchToProps并执行。
 
 这个proxy还是有点内容的，需要仔细看看。
@@ -131,8 +131,7 @@ function initProxySelector(dispatch, { displayName }) {
       let props = proxy(stateOrDispatch, ownProps)
       
       // 判断返回的结果是否是function，这个比较不常用，因为一般我们都会直接返回一个对象。
-      // 但是实际上react-redux也支持返回一个function，如果返回一个function，react-redux
-      // 会把它当成真实的mapStateToProps或mapDispatchToProps并继续调用。
+      // 但是实际上react-redux也支持返回一个function，如果返回一个function，react-redux会把它当成真实的mapStateToProps或mapDispatchToProps并继续调用。
       if (typeof props === 'function') {
         proxy.mapToProps = props
         proxy.dependsOnOwnProps = getDependsOnOwnProps(props)

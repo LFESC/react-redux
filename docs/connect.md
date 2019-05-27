@@ -1,10 +1,10 @@
-## connect
-### 参数
+# connect
+## 参数
 - mapStateToProps?: Function
 - mapDispatchToProps?: Function | Object
 - mergeProps?: Function
 - options?: Object
-### 使用方式
+## 使用方式
 ```js
 import * as todoActionCreators from './todoActionCreators'
 import * as counterActionCreators from './counterActionCreators'
@@ -26,8 +26,9 @@ export default connect(
   mapDispatchToProps
 )(TodoApp)
 ```
-### 解析
-#### 返回值 
+## 解析
+这里只会简单介绍一下返回值是什么，至于内部的实现原理可以去看[connectAdvanced](./connectAdvanced.md)这一章。
+### 返回值 
 connect返回一个高阶组件（HOC）
 renderedChild就是最后返回的组件
 ```js
@@ -53,14 +54,14 @@ const renderedChild = useMemo(() => {
   return renderedWrappedComponent
 }, [ContextToUse, renderedWrappedComponent, overriddenContextValue])
 ```
-#### connect将根据shouldHandleStateChanges判断该返回哪种高阶组件
+### connect将根据shouldHandleStateChanges判断该返回哪种高阶组件
 shouldHandleStateChanges的值是判断mapStateToProps是否为真，为真表示传递了mapStateToProps。
 ```js
 // if mapStateToProps is falsy, the Connect component doesn't subscribe to store state changes
 // 如果mapStateToProps是错误的，Connect组件就不监听store state的变化
 shouldHandleStateChanges: Boolean(mapStateToProps)
 ```
-#### 如果shouldHandleStateChanges为真表示应该监听state的变化，返回一个Context.Provider
+### 如果shouldHandleStateChanges为真表示应该监听state的变化，返回一个Context.Provider
 ```js
 if (shouldHandleStateChanges) {
   // If this component is subscribed to store updates, we need to pass its own
@@ -76,7 +77,7 @@ if (shouldHandleStateChanges) {
   )
 }
 ```
-#### 如果shouldHandleStateChanges为假表示不必监听state的变化，直接返回包裹的组件
+### 如果shouldHandleStateChanges为假表示不必监听state的变化，直接返回包裹的组件
 ```js
 // Now that all that's done, we can finally try to actually render the child component.
 // We memoize the elements for the rendered child component as an optimization.

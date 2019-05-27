@@ -1,9 +1,9 @@
-## Provider
-### 参数
+# Provider
+## 参数
 - store
 - children
 - context
-### 使用方式
+## 使用方式
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -21,9 +21,8 @@ ReactDOM.render(
   document.getElementById('root')
 )
 ```
-### 解析
-#### 返回值
-##### Provider是一个class组件render返回的是context.provider
+## 解析
+### 返回值
 ```js
 return (
   <Context.Provider value={this.state}>
@@ -31,7 +30,7 @@ return (
   </Context.Provider>
 )
 ```
-#### 参数
+### 参数
 **store**
 
   store会传入组件的state里面并传给Context.Provider
@@ -54,7 +53,7 @@ return (
   const Context = this.props.context || ReactReduxContext
   ```
 
-#### 其它
+### Subscription
 Subscription对象的作用是监听store的变化并执行对应的listeners
 ```js
 // 初始化的功能

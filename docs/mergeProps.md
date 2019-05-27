@@ -1,11 +1,11 @@
 # mergeProps
 ## match
-首先调用match方法，这个方法的逻辑和mapStateToProps是一样的，会根据mergePropsFactories
-会返回一个方法。
+首先调用match方法，这个方法的逻辑和mapStateToProps是一样的，会循环调用mergePropsFactories数组里面的每一个方法，直到返回一个可用的结果。
 ```js
 // 如果mergeProps是一个function，则返回一个function initMergePropsProxy
 // 如果mergeProps省略，则返回一个function defaultMergeProps
 const initMergeProps = match(mergeProps, mergePropsFactories, 'mergeProps')
+
 -------- from connect.js
 ```
 ## mergePropsFactories
@@ -64,4 +64,6 @@ export function wrapMergePropsFunc(mergeProps) {
 export function defaultMergeProps(stateProps, dispatchProps, ownProps) {
   return { ...ownProps, ...stateProps, ...dispatchProps }
 }
+
+---------- from mergeProps.js
 ```
