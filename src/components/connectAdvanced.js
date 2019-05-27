@@ -39,10 +39,9 @@ const initStateUpdates = () => [null, 0]
 // `connect` to perform sync updates to a ref to save the latest props after
 // a render is actually committed to the DOM.
 // 当在服务器上使用useLayoutEffect时，React当前会抛出一个警告。
-// 为了解决这个问题，我们可以有条件地在服务器上使用effect (no-op)
-// 在浏览器中使用效果。我们需要有效，因为我们想要
-// ' connect '执行对ref的同步更新，以保存最新的props
-// 渲染实际上是提交给DOM的。
+// 为了解决这个问题，我们可以在服务器上使用useEffect (no-op)
+// 在浏览器中使用useLayoutEffect。我们需要useLayoutEffect，因为我们想要
+// ' connect '执行对ref的同步更新，以保存最新的props在一次render被实际提交给DOM后。
 // isomorphic: 同构
 const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' &&
@@ -55,7 +54,7 @@ export default function connectAdvanced(
   /*
     selectorFactory is a func that is responsible for returning the selector function used to
     compute new props from state, props, and dispatch. For example:
-    selectorFactory是一个函数，负责返回用于从state、props和dispatch计算新props。例如:
+    selectorFactory是一个函数，负责返回selector方法：用于从state、props和dispatch计算新props。例如:
 
       export default connectAdvanced((dispatch, options) => (state, props) => ({
         thing: state.things[props.thingId],
@@ -65,8 +64,8 @@ export default function connectAdvanced(
     Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
     outside of their selector as an optimization. Options passed to connectAdvanced are passed to
     the selectorFactory, along with displayName and WrappedComponent, as the second argument.
-    访问dispatch被提供给工厂函数，因此作为一种优化selectorFactories可以在它们的selectors外面绑定actioncreator
-    传递给connectAdvanced的选项被传递给选择器工厂函数以及displayName和WrappedComponent作为第二个参数。
+    dispatch被提供给工厂函数，因此作为一种优化selectorFactories可以在它们的selectors外面绑定actioncreator。
+    传递给connectAdvanced的选项被传递给selectorFactory以及displayName和WrappedComponent作为第二个参数。
 
     Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
     props. Do not use connectAdvanced directly without memoizing results between calls to your
@@ -447,14 +446,13 @@ export default function connectAdvanced(
         }
 
         // Actually subscribe to the nearest connected ancestor (or store)
-        // 实际上订阅最近连接的祖先(或存储)
+        // 实际上订阅最近连接的祖先(或store)
         subscription.onStateChange = checkForUpdates
         subscription.trySubscribe()
 
         // Pull data from the store after first render in case the store has
         // changed since we began.
-        // 在第一次渲染后从存储中拉出数据，以防存储有
-        // 自从我们开始改变。
+        // 在第一次渲染后从store中拉出数据，以防store改变自从我们开始。
         checkForUpdates()
 
         const unsubscribeWrapper = () => {
@@ -490,16 +488,15 @@ export default function connectAdvanced(
 
       // If React sees the exact same element reference as last time, it bails out of re-rendering
       // that child, same as if it was wrapped in React.memo() or returned false from shouldComponentUpdate.
-      // 如果React看到与上次完全相同的元素引用，它将停止重新呈现
-      // 这个子元素，就像它被包装在response.memo()中一样，或者从shouldComponentUpdate返回false。
+      // 如果React看到与上次完全相同的元素引用，它将停止重新渲染这个子元素，
+      // 就像它被包装在React.memo()中一样，或者从shouldComponentUpdate返回false。
       const renderedChild = useMemo(() => {
         if (shouldHandleStateChanges) {
           // If this component is subscribed to store updates, we need to pass its own
           // subscription instance down to our descendants. That means rendering the same
           // Context instance, and putting a different value into the context.
-          // 如果这个组件订阅了存储更新，我们需要传递它自己的更新
-          // 订阅实例。这意味着渲染相同
-          // 上下文实例，并将不同的值放入上下文。
+          // 如果这个组件订阅了存储更新，我们需要传递它自己的subscription实例传递到它的后代。
+          // 这意味着渲染相同上下文实例，并将不同的值放入上下文。
           return (
             <ContextToUse.Provider value={overriddenContextValue}>
               {renderedWrappedComponent}
@@ -514,7 +511,7 @@ export default function connectAdvanced(
     }
 
     // If we're in "pure" mode, ensure our wrapper component only re-renders when incoming props have changed.
-    // 如果我们处于“pure”模式，确保包装器组件只在传入的props发生更改时重新呈现。
+    // 如果我们处于“pure”模式，确保包装器组件只在传入的props发生更改时重新渲染。
     const Connect = pure ? React.memo(ConnectFunction) : ConnectFunction
 
     Connect.WrappedComponent = WrappedComponent
