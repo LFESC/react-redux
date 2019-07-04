@@ -27,7 +27,7 @@ export default connectAdvanced(selectorFactory)(TodoApp)
 ```
 ## 解析
 connectAdvanced接受两个参数
-### `selectorFactory(dispatch, factoryOptions): selector(state, ownProps): props (Function)`
+### selectorFactory
 第一个参数是一个工厂函数（高阶函数），它会在组件实例化的时候调用，它的返回值是一个`selector`用于根据新的state和props计算传递给包裹的组件的新props，所以它的返回值是一个属性对象。
 #### 默认值
 值得研究的是`selectorFactory`的默认值，因为我们一般都很少会自定义`connectAdvanced`方法，而且这也是`connect`方法内部运行机制的重要部分。

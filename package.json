@@ -1,0 +1,26 @@
+{
+  "name": "react-redux",
+  "version": "1.0.0",
+  "description": "- [Provider](/docs/provider.md) - [connect](/docs/connect.md)   - [mapStateToProps](/docs/mapStateToProps.md)   - [mapDispatchToProps](/docs/mapDispatchToProps.md)   - [mergeProps](/docs/mergeProps.md)   - [options](/docs/connectOptions.md) - [connectAdvanced](/docs/connectAdvanced.md) - [batch](/docs/batch.md) ## 讲解方式 我的讲解的方式根据库所暴露出来的API去探究其内部实现。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LFESC/react-redux.git"
+  },
+  "author": "kwzm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LFESC/react-redux/issues"
+  },
+  "homepage": "https://github.com/LFESC/react-redux#readme",
+  "devDependencies": {
+    "vuepress": "^1.0.2"
+  }
+}
